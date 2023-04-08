@@ -2,8 +2,8 @@
 import subprocess
 import threading
 
-#
-from mccpy.mccutil import MccUtil
+# mccutil
+from mccutil import MccUtil
 
 
 class MccManager:
