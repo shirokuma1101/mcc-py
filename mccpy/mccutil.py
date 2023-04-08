@@ -16,10 +16,10 @@ class MccUtil:
         pass
 
     @staticmethod
-    def download(header: str, download_dir: str, edition: str, platform: str = 'win', version: str = None) -> bool:
-        dir_url = MccUtil._getmcurl(header=header, edition=edition, platform=platform, version=version)
+    def download(headers: dict, download_dir: str, edition: str, platform: str = 'win', version: str = None) -> bool:
+        dir_url = MccUtil._getmcurl(headers=headers, edition=edition, platform=platform, version=version)
         if dir_url:
-            res = requests.get(dir_url, headers={'User-Agent': header})
+            res = requests.get(dir_url, headers=headers)
             if res.ok:
                 with open(f'{download_dir}/{os.path.basename(urlparse(dir_url).path)}', 'wb') as f:
                     f.write(res.content)
@@ -42,12 +42,12 @@ class MccUtil:
 
     # private
     @staticmethod
-    def _getmcurl(header: str, edition: str, platform: str = 'win', version: str = None) -> str:
+    def _getmcurl(headers: dict, edition: str, platform: str = 'win', version: str = None) -> str:
         if edition == 'je':
             pass
         elif edition == 'be':
             mc_url = 'https://www.minecraft.net/en-us/download/server/bedrock'
-            res = requests.get(mc_url, headers={'User-Agent': header})
+            res = requests.get(mc_url, headers=headers)
             if res.ok:
                 soup = BeautifulSoup(res.text, 'html.parser')
                 if platform == 'win':
